@@ -1,4 +1,4 @@
-# Self-Improvement System - Autonomous Code Generation & Agent Evolution
+# SIGRID Self-Improvement System - Autonomous Code Generation & Agent Evolution
 
 import json
 import os
@@ -7,6 +7,7 @@ from datetime import datetime
 from typing import Dict, List, Optional
 from src.config.settings import MEMORY_DIR, PROJECT_ROOT
 from src.ai_client import DualAIClient
+from src.mojo import mojo  # Mojo sandbox for safe code testing
 
 class SelfImprovementEngine:
     """
@@ -228,6 +229,29 @@ class SelfImprovementEngine:
             return self._create_resources(strategy)
         else:
             return self._apply_general_improvements(strategy)
+    
+    def _test_generated_code(self, code: str) -> Dict:
+        """Test generated code using Mojo sandbox before applying."""
+        # First check safety
+        safety_check = mojo.sandbox.check_code_safety(code)
+        
+        if not safety_check["safe"]:
+            return {
+                "safe": False,
+                "danger_level": safety_check["danger_level"],
+                "warnings": safety_check["warnings"],
+                "test_result": None
+            }
+        
+        # If safe, execute test
+        test_result = mojo.sandbox.execute_safely(code, timeout=5.0)
+        
+        return {
+            "safe": True,
+            "danger_level": 0,
+            "warnings": [],
+            "test_result": test_result
+        }
     
     def _enhance_prompts(self, strategy: Dict) -> Dict:
         """Enhance prompt templates based on failures."""

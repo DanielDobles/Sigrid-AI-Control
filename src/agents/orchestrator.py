@@ -14,6 +14,7 @@ from src.modules.file_system import FileSystemAgent
 from src.modules.browser import BrowserAgentSync
 from src.learning.prompt_optimizer import PromptOptimizer
 from src.learning.self_improvement import SelfImprovementEngine
+from src.mojo import mojo  # Mojo integration with Python fallback
 
 class AgentState(TypedDict):
     """State schema for the LangGraph workflow."""
@@ -201,6 +202,17 @@ SAFETY RULES:
             
             # Execute the action
             result = self.pc_controller.execute_action(action_name, **parameters)
+            
+            # If screenshot, enhance with Mojo analysis
+            if result.get("status") == "success" and action_name == "take_screenshot":
+                screenshot_path = result.get("path")
+                if screenshot_path and mojo.available:
+                    try:
+                        screenshot_analysis = mojo.image_processor.analyze_screenshot(screenshot_path)
+                        result["screenshot_analysis"] = screenshot_analysis
+                    except:
+                        pass  # Continue without analysis if it fails
+            
             execution_time = time.time() - start_time
             
             # Record action in RL system

@@ -30,6 +30,7 @@ from PyQt6.QtGui import (
 sys.path.insert(0, str(Path(__file__).parent.parent.parent))
 
 from src.agents.orchestrator import SigridOrchestrator
+from src.mojo import mojo  # Mojo integration
 
 
 # ============================================================
@@ -861,6 +862,9 @@ class SigridMainWindow(QMainWindow):
             rl = status['reinforcement_learning']
             si = status['self_improvement']
             
+            # Add Mojo status
+            status['mojo'] = mojo.get_status()
+            
             html = f"""
             <h3 style="color: #89b4fa;">🧠 Learning System Status</h3>
             
@@ -884,6 +888,14 @@ class SigridMainWindow(QMainWindow):
             <ul>
                 <li><b>Google Gemma:</b> ✅ Available</li>
                 <li><b>Qwen CLI:</b> {'✅' if status['ai_engines']['qwen_cli']['available'] else '❌'} {status['ai_engines']['qwen_cli']['status']}</li>
+            </ul>
+            
+            <h4 style="color: #f38ba8;">Performance Layer (Mojo)</h4>
+            <ul>
+                <li><b>Mojo Runtime:</b> {'✅ Available (Native Speed)' if status['mojo']['mojo_available'] else '⚠️ Python Fallback'}</li>
+                <li><b>Image Processing:</b> {status['mojo']['image_processor']}</li>
+                <li><b>Task Queue:</b> {status['mojo']['task_queue']}</li>
+                <li><b>Sandbox:</b> {status['mojo']['sandbox']}</li>
             </ul>
             """
             

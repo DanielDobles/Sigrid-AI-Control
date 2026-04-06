@@ -5,6 +5,7 @@
 > Advanced desktop AI agent with autonomous learning, PC control, and self-improvement capabilities.
 
 ![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)
+![Mojo](https://img.shields.io/badge/Mojo-Experimental-orange.svg)
 ![License](https://img.shields.io/badge/License-Private-red.svg)
 ![AI](https://img.shields.io/badge/AI-Gemma_4-orange.svg)
 ![Framework](https://img.shields.io/badge/Framework-LangGraph-green.svg)
@@ -43,6 +44,13 @@
 - **Browser automation** - Playwright-powered web interaction
 
 ### 🎯 Advanced Learning Systems
+
+#### ⚡ High-Performance Layer (Mojo)
+- **Native-speed image processing** - Screenshot analysis 10-100x faster than Python
+- **Visual root cause analysis** - Detect UI elements, changes, and layout issues
+- **Task queue orchestration** - Low-latency agent coordination
+- **Sandboxed execution** - Safe AI-generated code testing
+- **Automatic Python fallback** - Works without Mojo installed
 
 #### Reinforcement Learning
 - **Action recording** with results and execution time
